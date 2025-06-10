@@ -50,6 +50,7 @@ function deleteTask(event) {
   return null;
 }
 
+// CAPTURER AND LISTENER OF CLICK'S EVENT.
 function deleteEventClick() {
     const deleteTaskID = document.getElementById(`deleteTask${counter}`);
     return deleteTaskID.addEventListener("click", deleteTask);
