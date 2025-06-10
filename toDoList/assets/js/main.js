@@ -38,12 +38,19 @@ function createDeleteButton() {
     deleteButton.textContent = "Delete Task";
     deleteButton.setAttribute(`id`, `deleteTask${counter}`);
     
-    const deleteTaskID = document.getElementById(`deleteTask${counter}`);
-    deleteTaskID.addEventListener("click", deleteTask);
+    deleteEventClick();
+
+    return null;
 }
 
-// DELETING TASKS ENGINE.
+// DELETE TASK ENGINE.
 function deleteTask(event) {
   const li = event.target.parentElement;
   li.remove();
+  return null;
+}
+
+function deleteEventClick() {
+    const deleteTaskID = document.getElementById(`deleteTask${counter}`);
+    return deleteTaskID.addEventListener("click", deleteTask);
 }
