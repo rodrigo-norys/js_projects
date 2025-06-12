@@ -1,4 +1,5 @@
 let counter = 0;
+
 // li's creater function.
 function createLi() {
     // Ul Element.
@@ -19,15 +20,25 @@ function captureTask() {
 }
 
 // ADD BUTTON ENGINE.
+let taskArray = JSON.parse(localStorage.getItem('tasks')) || [];
+
+
 document.getElementById("addButton").addEventListener("click",addButton);
 function addButton() {
-    createLi().textContent = `${captureTask()}  `;
+    createLi().textContent = captureTask();
+    
+    taskArray.push(captureTask())
+    localStorage.setItem("tasks", JSON.stringify(taskArray));
     
     counter++;
-    createDeleteButton(counter);
-
-    return null;
+    createDeleteButton();
+    
+    deleteEventClick();
 };
+
+for (counter; counter < taskArray.length; counter++) {
+    createLi().textContent = `${taskArray[counter]}`;
+}
 
 // CREATE DELETE BUTTON.
 function createDeleteButton() {
@@ -37,21 +48,19 @@ function createDeleteButton() {
     localDeleteButton.appendChild(deleteButton);
     deleteButton.textContent = "Delete Task";
     deleteButton.setAttribute(`id`, `deleteTask${counter}`);
-    
-    deleteEventClick();
-
+    console.log(localDeleteButton);
     return null;
 }
 
 // DELETE TASK ENGINE.
 function deleteTask(event) {
-  const li = event.target.parentElement;
-  li.remove();
-  return null;
+    const li = event.target.parentElement;
+    li.remove();
+    return null;
 }
 
 // CAPTURER AND LISTENER OF CLICK'S EVENT.
-function deleteEventClick() {
+function deleteEventClick(event) {
     const deleteTaskID = document.getElementById(`deleteTask${counter}`);
     return deleteTaskID.addEventListener("click", deleteTask);
-}
+};
