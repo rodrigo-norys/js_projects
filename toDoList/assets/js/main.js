@@ -21,8 +21,6 @@ function captureTask() {
 
 // ADD BUTTON ENGINE.
 let taskArray = JSON.parse(localStorage.getItem('tasks')) || [];
-
-
 document.getElementById("addButton").addEventListener("click",addButton);
 function addButton() {
     createLi().textContent = captureTask();
@@ -38,18 +36,29 @@ function addButton() {
 
 for (counter; counter < taskArray.length; counter++) {
     createLi().textContent = `${taskArray[counter]}`;
+    const localDeleteButton2 = document.getElementById(`task${counter+1}`);
+    const deleteButton2 = document.createElement("button");
+    
+    deleteButton2.textContent = "Delete Task";
+    deleteButton2.setAttribute(`id`, `deleteTask${counter+1}`);
+    localDeleteButton2.appendChild(deleteButton2);
 }
+
+// taskArray.forEach(() => {
+//     // index === o índice
+//     // tarefa === o conteúdo
+//     createLi().textContent = `${taskArray[counter]}`;
+
+// });
 
 // CREATE DELETE BUTTON.
 function createDeleteButton() {
-    const localDeleteButton = document.querySelector(`#task${counter}`);
+    const localDeleteButton = document.getElementById(`task${counter}`);
     const deleteButton = document.createElement("button");
     
-    localDeleteButton.appendChild(deleteButton);
     deleteButton.textContent = "Delete Task";
     deleteButton.setAttribute(`id`, `deleteTask${counter}`);
-    console.log(localDeleteButton);
-    return null;
+    return localDeleteButton.appendChild(deleteButton);
 }
 
 // DELETE TASK ENGINE.
@@ -60,7 +69,7 @@ function deleteTask(event) {
 }
 
 // CAPTURER AND LISTENER OF CLICK'S EVENT.
-function deleteEventClick(event) {
-    const deleteTaskID = document.getElementById(`deleteTask${counter}`);
+function deleteEventClick() {
+    const deleteTaskID = document.querySelector(`#deleteTask${counter}`);
     return deleteTaskID.addEventListener("click", deleteTask);
 };
