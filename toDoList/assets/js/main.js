@@ -24,15 +24,15 @@ let taskArray = JSON.parse(localStorage.getItem("tasks")) || [];
 document.getElementById("addButton").addEventListener("click", addButton);
 function addButton() {
     createLi().textContent = captureTask();
-
+    
     taskArray.push(captureTask())
     localStorage.setItem("tasks", JSON.stringify(taskArray));
-
+    
     createDeleteButton();
-    counter++;
-
+    
     deleteEventClick();
-
+    counter++;
+    
 };
 
 // CREATE DELETE BUTTON.
@@ -41,7 +41,7 @@ let deleteButton;
 function createDeleteButton() {
     selectedTask = document.getElementById(`task${counter}`);
     deleteButton = document.createElement("button");
-
+    
     deleteButton.textContent = "Delete Task";
     deleteButton.setAttribute(`id`, `deleteTask${counter}`);
     selectedTask.appendChild(deleteButton);
@@ -51,12 +51,11 @@ function createDeleteButton() {
 function deleteTask(event) {
     const li = event.target.parentElement;
     const index = Number(li.dataset.index);
-
+    
     taskArray.splice(index, 1);
     localStorage.setItem('tasks', JSON.stringify(taskArray));
-
+    
     li.remove();
-
 }
 
 // CAPTURER AND LISTENER OF CLICK'S DELETE EVENT.
