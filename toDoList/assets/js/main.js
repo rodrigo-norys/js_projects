@@ -1,80 +1,84 @@
-let counter = 0;
+// Inicialization of arrays tasks
+let taskArray = JSON.parse(localStorage.getItem("tasks")) || [];
 
 // li's creater function.
-function createLi() {
-    // Ul Element.
+function createLi(index) {
     const taskList = document.getElementById("taskList");
-    // Creating li element.
-    const containerItemTask = document.createElement("li");
-    // Setting IDs dinamically.
-    containerItemTask.setAttribute(`id`, `task${counter}`);
-    containerItemTask.setAttribute("data-index", counter);
-    return taskList.appendChild(containerItemTask);
+    const li = document.createElement("li");
+
+    li.setAttribute("id", `task${index}`);
+    li.setAttribute("data-index", index);
+
+    return taskList.appendChild(li);
 }
 
-// Capturing value from input text.
+// Capturing value from task input text.
 const taskInputText = document.getElementById("taskInputText");
-taskInputText.addEventListener("input", captureTask);
 function captureTask() {
-    return taskInputText.value
+    return taskInputText.value;
 }
 
 // ADD BUTTON ENGINE.
-let taskArray = JSON.parse(localStorage.getItem("tasks")) || [];
 document.getElementById("addButton").addEventListener("click", addButton);
 function addButton() {
-    createLi().textContent = captureTask();
-    
-    taskArray.push(captureTask())
+    const currentIndex = taskArray.length;
+
+    const li = createLi(currentIndex);
+    li.textContent = captureTask();
+
+    taskArray.push(captureTask());
     localStorage.setItem("tasks", JSON.stringify(taskArray));
-    
-    createDeleteButton();
-    
-    deleteEventClick();
-    counter++;
-    
-};
+
+    createDeleteButton(currentIndex);
+    deleteEventClick(currentIndex);
+}
 
 // CREATE DELETE BUTTON.
-let selectedTask;
-let deleteButton;
-function createDeleteButton() {
-    selectedTask = document.getElementById(`task${counter}`);
-    deleteButton = document.createElement("button");
-    
+function createDeleteButton(index) {
+    const selectedTask = document.getElementById(`task${index}`);
+    const deleteButton = document.createElement("button");
+
     deleteButton.textContent = "Delete Task";
-    deleteButton.setAttribute(`id`, `deleteTask${counter}`);
+    deleteButton.setAttribute("id", `deleteTask${index}`);
+
     selectedTask.appendChild(deleteButton);
+}
+
+// CAPTURER AND LISTENER OF CLICK'S DELETE EVENT.
+function deleteEventClick(index) {
+    const deleteTaskButton = document.getElementById(`deleteTask${index}`);
+    if (deleteTaskButton) {
+        deleteTaskButton.addEventListener("click", deleteTask);
+    }
 }
 
 // DELETE TASK ENGINE.
 function deleteTask(event) {
     const li = event.target.parentElement;
     const index = Number(li.dataset.index);
-    
-    taskArray.splice(index, 1);
-    localStorage.setItem('tasks', JSON.stringify(taskArray));
-    
+
     li.remove();
+    taskArray.splice(index, 1);
+    localStorage.setItem("tasks", JSON.stringify(taskArray));
+
+    // Re-renderiza a lista para atualizar os índices e eventos.
+    renderTasks();
 }
 
-// CAPTURER AND LISTENER OF CLICK'S DELETE EVENT.
-let deleteTaskID;
-function deleteEventClick() {
-    deleteTaskID = document.querySelector(`#deleteTask${counter}`);
-    deleteTaskID.addEventListener("click", deleteTask);
-};
+// RENDER ALL TASKS.
+function renderTasks() {
+    const taskList = document.getElementById("taskList");
+    taskList.innerHTML = ""; // Need to be clean before loop's structure.
 
-// Loop to show items added inside Local Storage.
-for (counter; counter < taskArray.length; counter++) {
-    createLi().textContent = `${taskArray[counter]}`;
-    selectedTask = document.getElementById(`task${counter}`);
-    deleteButton = document.createElement("button");
+    // Better than last for...
+    taskArray.forEach((task, index) => {
+        const li = createLi(index);
+        li.textContent = task;
 
-    deleteButton.textContent = "Delete Task";
-    deleteButton.setAttribute(`id`, `deleteTask${counter}`);
-    selectedTask.appendChild(deleteButton);
-
-    deleteTaskID = document.querySelector(`#deleteTask${counter}`);
-    deleteTaskID.addEventListener("click", deleteTask);
+        createDeleteButton(index);
+        deleteEventClick(index);
+    });
 }
+
+// INIT LOCALSTORAGE TASKS.
+renderTasks();
