@@ -25,12 +25,13 @@ body {
 }
 
 #inputText {
+  padding-top: 32px;
+  text-align: right;
   max-width: 350px;
-  height: 50px;
-  font-size: 45px;
+  height: 70px;
+  font-size: 40px;
   background: #fff;
   color: #900;
-  text-align: right;
 }
 
 #buttons button {

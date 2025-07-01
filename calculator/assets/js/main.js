@@ -1,7 +1,6 @@
 (function calculator(num) {
     let input = document.getElementById("inputText");
     let inputText;
-    let i = 0;
 
     // Conventional operations.
     function addition() {
@@ -24,15 +23,6 @@
     document.querySelectorAll("button").forEach(btn => {
         btn.addEventListener("click", () => {
             inputText = input.value += btn.value;
-
-            if (btn.value === "+") {
-                i++
-                console.log(i);
-            }
-            if (i >= 2) {
-                equal();
-            }
-
         });
     });
 
@@ -42,27 +32,36 @@
         input.value = "";
     }
 
+    // Backspace button.
+    document.getElementById("backspace").addEventListener("click", backspace);
+    function backspace() {
+        let backspace = inputText.split(inputText[inputText.length - 1]);
+        return input.value = backspace[0];
+    }
+
     // Equal button.
     document.getElementById("equal").addEventListener("click", equal);
     function equal() {
-        // If first number be negative.
+        let operator = inputText.match(/\*\*|[\+\-\*\/]/g);
+        let operator2;
         num = inputText.split(/\*\*|[\+\-\*\/]/);
-        console.log(inputText);
-        if (inputText[0] === "-") {
+
+        // If expression iniciate with negative number.
+        if (operator[0] === "-" && operator.length >= 2) {
             num[0] = -num[1];
             num[1] = num[2];
-        } 
-        let operator = inputText.match(/\*\*|[\+\-\*\/]/)[0];
+            operator2 = operator[1];
+        } else {
+            operator2 = operator[0];
+        }
 
         // Logic to handle the correct operation.
-        if (operator) {   
-            operator === "+" ? input.value = addition() :
-            operator === "-" ? input.value = subtraction() :
-            operator === "*" ? input.value = multiplication() :
-            operator === "**" ? input.value = exponentiation() :
+        if (operator2) {
+            operator2 === "+" ? input.value = addition() :
+            operator2 === "-" ? input.value = subtraction() :
+            operator2 === "*" ? input.value = multiplication() :
+            operator2 === "**" ? input.value = exponentiation() :
             input.value = division();
-            console.log(operator[0]);
-            console.log(num);
         }
     };
 })();
