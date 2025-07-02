@@ -1,6 +1,8 @@
-(function calculator(num) {
+(function calculator() {
     let input = document.getElementById("inputText");
     let inputText;
+    let operator;
+    let num;
 
     // Conventional operations.
     function addition() {
@@ -20,9 +22,11 @@
     }
 
     // Calculator buttons mapping.
+    input.value = 0;
     document.querySelectorAll("button").forEach(btn => {
         btn.addEventListener("click", () => {
             inputText = input.value += btn.value;
+
         });
     });
 
@@ -39,29 +43,36 @@
         return input.value = backspace[0];
     }
 
-    // Equal button.
-    document.getElementById("equal").addEventListener("click", equal);
-    function equal() {
-        let operator = inputText.match(/\*\*|[\+\-\*\/]/g);
-        let operator2;
+    // Determines which operator should be used based on the expression.
+    function getselectdOperator() {
+        let selectdOperator = inputText.match(/\*\*|[\+\-\*\/]/g);
         num = inputText.split(/\*\*|[\+\-\*\/]/);
 
-        // If expression iniciate with negative number.
-        if (operator[0] === "-" && operator.length >= 2) {
+        if (selectdOperator[0] === "-" && selectdOperator.length >= 2) { // If expression be iniciated with negative number.
             num[0] = -num[1];
             num[1] = num[2];
-            operator2 = operator[1];
-        } else {
-            operator2 = operator[0];
+            return operator = selectdOperator[1];
+        } else if (selectdOperator.length >= 2) { // If expression has more than two operators.
+            num[0] = num[1];
+            num[1] = num[2];
+            return operator = selectdOperator[1];
+        } else { // If expression has one selectdOperator.
+            return operator = selectdOperator[0];
         }
+    }
+    // Equality button.
+    document.getElementById("equal").addEventListener("click", equality);
+    function equality() {
+        // Calling the function to get the selectdOperator.
+        getselectdOperator();
 
         // Logic to handle the correct operation.
-        if (operator2) {
-            operator2 === "+" ? input.value = addition() :
-            operator2 === "-" ? input.value = subtraction() :
-            operator2 === "*" ? input.value = multiplication() :
-            operator2 === "**" ? input.value = exponentiation() :
-            input.value = division();
+        if (operator) {
+            operator === "+" ? input.value = addition() :
+                operator === "-" ? input.value = subtraction() :
+                    operator === "*" ? input.value = multiplication() :
+                        operator === "**" ? input.value = exponentiation() :
+                            input.value = division();
         }
     };
 })();
