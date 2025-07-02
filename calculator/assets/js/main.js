@@ -3,6 +3,23 @@
     let inputText;
     let operator;
     let num;
+ 
+    // Calculator buttons mapping.
+    input.value = 0;
+    let firstClick = true;
+    document.querySelectorAll("button").forEach(btn => {
+        btn.addEventListener("click", () => {
+            if (firstClick) { // If first click not be a number or be a number.
+                btn.className != "isNotNumber" 
+                ? inputText = clear()
+                : inputText = input.value + btn.value;
+
+                firstClick = false; // Exiting the first click.
+            } 
+            inputText = input.value += btn.value;
+            
+        });
+    });
 
     // Conventional operations.
     function addition() {
@@ -20,16 +37,7 @@
     function exponentiation() {
         return Math.pow(Number(num[0]), Number(num[1]));
     }
-
-    // Calculator buttons mapping.
-    input.value = 0;
-    document.querySelectorAll("button").forEach(btn => {
-        btn.addEventListener("click", () => {
-            inputText = input.value += btn.value;
-
-        });
-    });
-
+    
     // Clear button.
     document.getElementById("clear").addEventListener("click", clear);
     function clear() {
@@ -44,27 +52,27 @@
     }
 
     // Determines which operator should be used based on the expression.
-    function getselectdOperator() {
-        let selectdOperator = inputText.match(/\*\*|[\+\-\*\/]/g);
+    function getOperator() {
+        let matchOperator = inputText.match(/\*\*|[\+\-\*\/]/g);
         num = inputText.split(/\*\*|[\+\-\*\/]/);
 
-        if (selectdOperator[0] === "-" && selectdOperator.length >= 2) { // If expression be iniciated with negative number.
+        if (matchOperator[0] === "-" && matchOperator.length >= 2) { // If expression be iniciated with negative number.
             num[0] = -num[1];
             num[1] = num[2];
-            return operator = selectdOperator[1];
-        } else if (selectdOperator.length >= 2) { // If expression has more than two operators.
+            return operator = matchOperator[1];
+        } else if (matchOperator.length >= 2) { // If expression has more than two operators.
             num[0] = num[1];
             num[1] = num[2];
-            return operator = selectdOperator[1];
-        } else { // If expression has one selectdOperator.
-            return operator = selectdOperator[0];
+            return operator = matchOperator[1];
+        } else { // If expression has one matchOperator.
+            return operator = matchOperator[0];
         }
     }
     // Equality button.
     document.getElementById("equal").addEventListener("click", equality);
     function equality() {
-        // Calling the function to get the selectdOperator.
-        getselectdOperator();
+        // Calling the function to get the matchOperator.
+        getOperator();
 
         // Logic to handle the correct operation.
         if (operator) {
