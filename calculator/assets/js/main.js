@@ -1,12 +1,15 @@
 (function calculator() {
     let input = document.getElementById("inputText");
     let inputText;
-    let operator;
-    let num;
+    let parsedNumber = [];
+    let matchOperator;
+    let stringOperands;
+    let numericValue;
+    let result = 0;
 
     // Calculator buttons mapping.
-
     let firstClick = true;
+    input.value = 0;
     document.querySelectorAll("button").forEach(btn => {
         btn.addEventListener("click", () => {
             if (firstClick) { // If first click not be a number or be a number.
@@ -21,24 +24,29 @@
         });
     });
 
-    // Conventional operations.
+    // Operations
     function addition() {
-        return Number(num[0]) + Number(num[1]);
+        return parsedNumber[0] + parsedNumber[1];
     }
     function subtraction() {
-        return Number(num[0]) - Number(num[1]);
+        return parsedNumber[0] + parsedNumber[1];
     }
     function multiplication() {
-        return Number(num[0]) * Number(num[1]);
+        return parsedNumber[0] * parsedNumber[1];
     }
     function division() {
-        return Number(num[0]) / Number(num[1]);
+        return parsedNumber[0] / parsedNumber[1];
     }
     function exponentiation() {
-        return Math.pow(Number(num[0]), Number(num[1]));
+        return Math.pow(parsedNumber[0], parsedNumber[1]);
     }
 
     // Clear button.
+
+
+    /**
+     * VERIFICAR A QUESTÃO DE QUANDO O BOTÃO CLEAR ESTÁ SENDO CLICADO, ELE ESTAR CONCATENANDO EM VEZ DE SUBSTITUIR O NÚMERO.
+     */
     document.getElementById("clear").addEventListener("click", clear);
     function clear() {
         input.value = 0;
@@ -52,60 +60,72 @@
     }
 
     // Determines which operator should be used based on the expression.
-    function getOperator() {
-        let matchOperator = inputText.match(/\*\*|[\+\-\*\/]/g);
-        matchOperator.unshift("+");
-        num = inputText.split(/\*\*|[\+\-\*\/]/);
-        let num2;
-        let num3 = 0;
-        let num4 = 0
-        let numbers = [];
+    function getSign() {
+        matchOperator = inputText.match(/\*\*|[\+\-\*\/]/g);
+        console.log(matchOperator);
+    }
 
-        for (let i = 0; i < num.length; i++) {
-            num2 = Number(num[i]);
-            matchOperator[i] != "-" ? numbers.push(num2) : numbers.push(-num2);
-            //num3 += numbers[i];
-        }
+    // To apply the correct sign (+ or -).
+    function applySign() {
+        stringOperands = inputText.split(/\*\*|[\+\-\*\/]/);
 
-        for (let j = 0; j < matchOperator.length; j++) {
-            console.log("aqui primeiro");
-            if (matchOperator[j] === "*") {
-                num4 = num[j-1] * num[j];
-                console.log(num4)
+        for (let i = 0; i < stringOperands.length; i++) { // Populating the array.
+            numericValue = Number(stringOperands[i]);
+
+            if (matchOperator[i - 1] === "-") { // [i - 1] it's because the sign comes after first number.
+                parsedNumber.push(-numericValue);
+            } else {
+                parsedNumber.push(numericValue);
+            }
+
+            const indice = parsedNumber.indexOf(0); // Cut off zero returns.
+            if (indice !== -1) {
+                parsedNumber.splice(indice, 1);
             }
         }
-        // matchOperator.forEach((operator, index) => {
-        //     console.log(`${index}: ${operator}`);
-        // });
-
-        input.value = num3;
-        console.log(numbers);
-        console.log(matchOperator);
-
-        // if (matchOperator[0] === "-" && matchOperator.length >= 2) { // If expression be iniciated with negative number.
-        //     num[0] = -num[1];
-        //     num[1] = num[2];
-        //     return operator = matchOperator[1];
-        // } else if (matchOperator.length >= 2) { // If expression has more than two operators.
-        //     num[0] = num[1];
-        //     num[1] = num[2];
-        //     return operator = matchOperator[1];
-        // } else { // If expression has one operator.
-        //     return operator = matchOperator[0];
-        // }
     }
+
+    // To define the correct operator, to equality() know what it needs to do.
+    function defineOperator() {
+        for (let j = 0; j < parsedNumber.length; j++) {
+            if (matchOperator[j] === "*") {
+                matchOperator.length = 0;
+                matchOperator.push("*");
+            }
+            else if (matchOperator[j] === "/") {
+                matchOperator.length = 0;
+                matchOperator.push("/");
+            }
+            else if (matchOperator[j] === "**") {
+                matchOperator.length = 0;
+                matchOperator.push("**");
+            }
+        }
+        console.log(parsedNumber);
+    }
+
     // Equality button.
     document.getElementById("equal").addEventListener("click", equality);
     function equality() {
-        // // Calling the function to get the operator.
-        getOperator();
-        // // Logic to handle the correct operation.
-        // if (operator) {
-        //     operator === "+" ? input.value = addition() :
-        //         operator === "-" ? input.value = subtraction() :
-        //             operator === "*" ? input.value = multiplication() :
-        //                 operator === "**" ? input.value = exponentiation() :
-        //                     input.value = division();
-        // }
+
+        // Capturing the sign.
+        getSign();
+
+        // Applying the sign.
+        applySign();
+
+        // Defining the correct operator.
+        defineOperator();
+
+        for (let j = 0; j < matchOperator.length; j++) {
+            matchOperator[j] === "*" ? result = multiplication() :
+                matchOperator[j] === "/" ? result = division() :
+                    matchOperator[j] === "**" ? result = exponentiation() :
+                        result = addition();
+        }
+
+        parsedNumber = [];
+        input.value = result;
+
     };
 })();
