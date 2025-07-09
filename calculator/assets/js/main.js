@@ -1,15 +1,16 @@
 (function calculator() {
+
+    /**
+     * ANOTAÇÃO PESSOAL!!!
+     * AINDA NECESSÁRIO CRIAR UMA TRAVA PARA QUE O USUÁRIO NÃO CRIE EXPRESSÕES LONGAS. QUANDO QUE NO PROGRAMA SÓ SERÃO PERMITION NO MÁXIMO 3 NÚMEROS.
+     */
     let input = document.getElementById("inputText");
     let inputText;
-    let parsedNumber = [];
-    let matchOperator;
-    let stringOperands;
-    let numericValue;
     let result = 0;
 
     // Calculator buttons mapping.
-    let firstClick = true;
     input.value = 0;
+    let firstClick = true;
     document.querySelectorAll("button").forEach(btn => {
         btn.addEventListener("click", () => {
             if (firstClick) { // If first click not be a number or be a number.
@@ -28,9 +29,6 @@
     function addition() {
         return parsedNumber[0] + parsedNumber[1];
     }
-    function subtraction() {
-        return parsedNumber[0] + parsedNumber[1];
-    }
     function multiplication() {
         return parsedNumber[0] * parsedNumber[1];
     }
@@ -42,14 +40,9 @@
     }
 
     // Clear button.
-
-
-    /**
-     * VERIFICAR A QUESTÃO DE QUANDO O BOTÃO CLEAR ESTÁ SENDO CLICADO, ELE ESTAR CONCATENANDO EM VEZ DE SUBSTITUIR O NÚMERO.
-     */
     document.getElementById("clear").addEventListener("click", clear);
     function clear() {
-        input.value = 0;
+        input.value = "";
     }
 
     // Backspace button.
@@ -60,14 +53,18 @@
     }
 
     // Determines which operator should be used based on the expression.
+    let matchOperator;
     function getSign() {
-        matchOperator = inputText.match(/\*\*|[\+\-\*\/]/g);
+        matchOperator = inputText.match(/\*\*|[\+\-\*\/\(\)]/g);
         console.log(matchOperator);
     }
 
     // To apply the correct sign (+ or -).
+    let stringOperands;
+    let numericValue;
+    let parsedNumber = [];
     function applySign() {
-        stringOperands = inputText.split(/\*\*|[\+\-\*\/]/);
+        stringOperands = inputText.split(/\*\*|[\+\-\*\/\(\)]/);
 
         for (let i = 0; i < stringOperands.length; i++) { // Populating the array.
             numericValue = Number(stringOperands[i]);
@@ -82,7 +79,7 @@
             if (indice !== -1) {
                 parsedNumber.splice(indice, 1);
             }
-        }
+        } 
     }
 
     // To define the correct operator, to equality() know what it needs to do.
@@ -101,29 +98,49 @@
                 matchOperator.push("**");
             }
         }
-        console.log(parsedNumber);
     }
-
+    
+    // To work with parentheses.
+    let prefixNumber = [];
+    function parentheses() {
+        prefixNumber = parsedNumber.splice(0,1);      
+    }
+    
     // Equality button.
     document.getElementById("equal").addEventListener("click", equality);
     function equality() {
-
+        
         // Capturing the sign.
         getSign();
-
+        
         // Applying the sign.
         applySign();
+        
+        // Separating numbers inside and outside parentheses (if it exists).
+        if (parsedNumber.length === 3) {
+            parentheses();
+        }
 
         // Defining the correct operator.
         defineOperator();
 
+
+        // Doing the operations.
         for (let j = 0; j < matchOperator.length; j++) {
             matchOperator[j] === "*" ? result = multiplication() :
                 matchOperator[j] === "/" ? result = division() :
                     matchOperator[j] === "**" ? result = exponentiation() :
                         result = addition();
-        }
 
+                    }
+
+                    // Applies implicit multiplication if there's a number before the parentheses.
+                    if (prefixNumber[0]) {
+                        result *= prefixNumber[0];
+
+                        prefixNumber = []
+                    } 
+                    
         parsedNumber = [];
         input.value = result;
 
