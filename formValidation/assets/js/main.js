@@ -65,7 +65,7 @@ class CpfValidator {
 
     }
 
-    validation() {
+    cpfValidation() {
         const lastTwoDigits = this.cpfDigitsToNumber().toSpliced(0, 9);
 
         /* VALIDATION FIRST STEP */
@@ -78,29 +78,38 @@ class CpfValidator {
         const secondSumValidation = this.decreasingMultiplierSum(firstTenDigits, 11);
         const secondDigitVerificator = this.digitVerificator(secondSumValidation, lastTwoDigits, lastTwoDigits[1]);
 
-        if (document.getElementById("cpfInputValidation")) document.getElementById("cpfInputValidation").remove();
-
-        if (firstdigitVerificator && secondDigitVerificator) {
-            // result.style.backgroundColor = '#00ffcc';
-            // return result.innerHTML = 'Valid CPF.';
-            $(`validationForm, input[data-index=2]`).after(this.formInstance.paragraph('cpfInputValidation', '', 'Valid CPF'));
-
-            // PAREI AQUIIIIIIIIIIIIIIIIII
-        } else {
-            // result.style.backgroundColor = 'red';
-            // return result.innerHTML = 'Invalid CPF.';
+        this.formInstance.paragraphRemover("cpfInputValidation");
+        if (!(firstdigitVerificator && secondDigitVerificator)) 
             $(`validationForm, input[data-index=2]`).after(this.formInstance.paragraph('cpfInputValidation', '', 'Invalid CPF'));
-        }
-
     }
 }
 
+class UserValidator {
+    constructor() {
+        this.userInput = document.getElementById('userInput');
+        this.formInstance = null;
+    }
+
+    userMask() {
+        document.addEventListener("DOMContentLoaded", () => {
+            Inputmask({ regex: "[a-zA-Z0-9]*" }).mask(this.userInput);
+        });
+    };
+
+    userValidation() {
+        this.formInstance.paragraphRemover("userInputParagraph");
+        if (this.userInput.value.length < 3 || this.userInput.value.length > 12) 
+            $(`validationForm, input[data-index=3]`).after(this.formInstance.paragraph("userInputParagraph", "", "Username must contain 3-12 characters."));
+    }
+}
 
 class FormValidation {
     constructor() {
         this.textInputs = document.querySelectorAll('validationForm, input[type="text"]');
         this.cpfInstance = new CpfValidator();
         this.cpfInstance.formInstance = this;
+        this.userInstance = new UserValidator();
+        this.userInstance.formInstance = this;
     }
 
     static stopReload() {
@@ -109,37 +118,42 @@ class FormValidation {
         });
     }
 
-    start() {
-        this.validateButtonEvent();
-    }
-
     paragraph(reference, index, string) {
         return `<p id=${reference}${index}>${string}</p>`
+    }
+
+    paragraphRemover(paragraphID) {
+        if (document.getElementById(paragraphID)) document.getElementById(paragraphID).remove();
     }
 
     blankInputsValidation() {
         const textInput = [...this.textInputs];
         textInput.map((textInput, index) => {
-            if (document.getElementById(`inputParagraph${index}`)) document.getElementById(`inputParagraph${index}`).remove();
+
+            this.paragraphRemover(`inputParagraph${index}`);
+            
             if ((textInput.value === "") && (document.getElementById(`inputParagraph${index}`) === null)) {
                 $(`validationForm, input[data-index=${index}]`).after(this.paragraph("inputParagraph", index, "Vazio"));
             }
         })
     }
 
-    validateButtonEvent() {
+    validateButton() {
         FormValidation.stopReload();
+        this.cpfInstance.cpfMask();
+        this.userInstance.userMask();
 
         document.addEventListener('submit', event => {
             const element = event.target;
             if (element.classList.contains('validationForm')) {
-                this.blankInputsValidation();
-                this.cpfInstance.validation();
+                this.blankInputsValidation(),
+                this.cpfInstance.cpfValidation(),
+                this.userInstance.userValidation();
             }
         });
     };
 }
 
 const form = new FormValidation();
-form.start()
+form.validateButton()
 console.log(form)
