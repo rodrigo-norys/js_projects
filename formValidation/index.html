@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Modelo</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+
+<body>
+  <form id="validationForm" class="validationForm">
+      <label for="nameInput">Name</label>
+      <input type="text" name="nameInput" id="nameInput" data-index="0">
+
+      <label for="surnameInput">Surname</label>
+      <input type="text" name="surnameInput" id="surnameInput" data-index="1">
+
+      <label for="cpfInput">CPF</label>
+      <input type="text" name="cpfInput" id="cpfInput" data-index="2">
+
+      <label for="userInput">User</label>
+      <input type="text" name="userInput" id="userInput" data-index="3">
+
+      <label for="passwordInput">Password</label>
+      <input type="text" name="passwordInput" id="passwordInput" data-index="4">
+
+      <label for="passConfirmInput">Password Confirmation</label>
+      <input type="text" name="passConfirmInput" id="passConfirmInput" data-index="5">
+
+      <input type="submit" name="formSubmit" class="formSubmit" value="Validate"></input>
+      <div id="result"></div>
+  </form>
+  <script src="https://unpkg.com/inputmask@5.0.8/dist/inputmask.min.js"></script>
+  <script src="./assets/js/main.js"></script>
+</body>
+
+</html>
