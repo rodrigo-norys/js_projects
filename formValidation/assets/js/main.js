@@ -4,16 +4,32 @@
  * Usuário deverá ter entre 3 e 12 caracteres.
  * Senha precisa ter entre 6 e 12 caracteres.
  */
-
-
-class CpfValidator {
+class AllNameValidator {
     constructor() {
-        this.cpfInput = document.getElementById('cpfInput');
+        this.firstNameInput = document.getElementById("nameInput");
+        this.surnameInput = document.getElementById("surnameInput");
         this.formInstance = null;
     }
 
-    start() {
-        this.cpfMask();
+    allNameMask() {
+        document.addEventListener("DOMContentLoaded", () => {
+            Inputmask({ regex: "([A-Za-zÀ-ÖØ-öø-ÿ\\s])*" }).mask([this.firstNameInput, this.surnameInput]);
+        });
+
+    }
+
+    whitespaceRemover() {
+        const firstName = this.firstNameInput.value;
+        const surname = this.surnameInput.value;
+
+        console.log(firstName.trim() + " " + surname.trim());
+    }
+}
+
+class CpfValidator {
+    constructor() {
+        this.cpfInput = document.getElementById("cpfInput");
+        this.formInstance = null;
     }
 
     cpfMask() {
@@ -70,7 +86,7 @@ class CpfValidator {
 
         /* VALIDATION FIRST STEP */
         const firstNineDigits = this.cpfDigitsToNumber().toSpliced(9, 2);
-        const firstSumValidation = this.decreasingMultiplierSum(firstNineDigits, 10);
+        const firstSumValidation = (this.cpfReceiver() != "") ? this.decreasingMultiplierSum(firstNineDigits, 10) : null;
         const firstdigitVerificator = this.digitVerificator(firstSumValidation, lastTwoDigits, lastTwoDigits[0]);
 
         /* VALIDATION SECOND STEP */
@@ -79,14 +95,14 @@ class CpfValidator {
         const secondDigitVerificator = this.digitVerificator(secondSumValidation, lastTwoDigits, lastTwoDigits[1]);
 
         this.formInstance.paragraphRemover("cpfInputValidation");
-        if (!(firstdigitVerificator && secondDigitVerificator)) 
-            $(`validationForm, input[data-index=2]`).after(this.formInstance.paragraph('cpfInputValidation', '', 'Invalid CPF'));
+        if (!(firstdigitVerificator && secondDigitVerificator))
+            $("validationForm, input[data-index=2]").after(this.formInstance.paragraph("cpfInputValidation", "", "Invalid CPF"));
     }
 }
 
 class UserValidator {
     constructor() {
-        this.userInput = document.getElementById('userInput');
+        this.userInput = document.getElementById("userInput");
         this.formInstance = null;
     }
 
@@ -97,23 +113,45 @@ class UserValidator {
     };
 
     userValidation() {
-        this.formInstance.paragraphRemover("userInputParagraph");
-        if (this.userInput.value.length < 3 || this.userInput.value.length > 12) 
-            $(`validationForm, input[data-index=3]`).after(this.formInstance.paragraph("userInputParagraph", "", "Username must contain 3-12 characters."));
+        this.formInstance.paragraphRemover("userLength");
+        if (this.userInput.value.length < 3 || this.userInput.value.length > 12)
+            $("validationForm, input[data-index=3]").after(this.formInstance.paragraph("userLength", "", "Username must contains 3-12 characters."));
+    }
+}
+
+class PasswordValidator {
+    constructor() {
+        this.passInput = document.getElementById("passInput");
+        this.passConfirmInput = document.getElementById("passConfirmInput");
+        this.formInstance = null;
+    }
+
+    passwordValidation() {
+        this.formInstance.paragraphRemover("passLength");
+        if (this.passInput.value.length < 6 || this.passInput.value.length > 12)
+            $("validationForm, input[data-index=4]").after(this.formInstance.paragraph("passLength", "", "Password must contains 6-12 characters."));
+        
+        this.formInstance.paragraphRemover("samePass");
+        if (this.passInput.value != this.passConfirmInput.value)
+            $("validationForm, input[data-index=5]").after(this.formInstance.paragraph("samePass", "", "Password must be the same."));
     }
 }
 
 class FormValidation {
     constructor() {
-        this.textInputs = document.querySelectorAll('validationForm, input[type="text"]');
+        this.textInputs = document.querySelectorAll('.validationForm input[type="text"], .validationForm input[type="password"]');
+        this.allNameInstance = new AllNameValidator();
+        this.allNameInstance.formInstance = this;
         this.cpfInstance = new CpfValidator();
         this.cpfInstance.formInstance = this;
         this.userInstance = new UserValidator();
         this.userInstance.formInstance = this;
+        this.passwordInstance = new PasswordValidator();
+        this.passwordInstance.formInstance = this;
     }
 
     static stopReload() {
-        document.getElementById('validationForm').addEventListener('submit', event => {
+        document.getElementById("validationForm").addEventListener("submit", event => {
             event.preventDefault();
         });
     }
@@ -130,25 +168,29 @@ class FormValidation {
         const textInput = [...this.textInputs];
         textInput.map((textInput, index) => {
 
-            this.paragraphRemover(`inputParagraph${index}`);
-            
-            if ((textInput.value === "") && (document.getElementById(`inputParagraph${index}`) === null)) {
-                $(`validationForm, input[data-index=${index}]`).after(this.paragraph("inputParagraph", index, "Vazio"));
+            this.paragraphRemover(`blankInput${index}`);
+
+            if ((textInput.value === "") && (document.getElementById(`blankInput${index}`) === null)) {
+                $(`validationForm, input[data-index=${index}]`).after(this.paragraph("blankInput", index, "Empty"));
             }
         })
     }
 
     validateButton() {
         FormValidation.stopReload();
+        this.allNameInstance.allNameMask();
         this.cpfInstance.cpfMask();
         this.userInstance.userMask();
 
-        document.addEventListener('submit', event => {
+        document.addEventListener("submit", event => {
             const element = event.target;
-            if (element.classList.contains('validationForm')) {
+            if (element.classList.contains("validationForm")) {
                 this.blankInputsValidation(),
-                this.cpfInstance.cpfValidation(),
-                this.userInstance.userValidation();
+                    this.cpfInstance.cpfValidation(),
+                    this.userInstance.userValidation(),
+                    this.allNameInstance.whitespaceRemover(),
+                    this.passwordInstance.passwordValidation();
+
             }
         });
     };

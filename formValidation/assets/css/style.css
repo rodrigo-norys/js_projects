@@ -40,8 +40,10 @@ input {
 }
 
 p {
-  margin-top: 0;
+  margin-top: -15px;
   margin-bottom: 5px;
+  color: red;
+  font-size: 15px;
 }
 
 #result {
