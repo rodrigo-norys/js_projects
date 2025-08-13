@@ -127,10 +127,11 @@ class PasswordValidator {
     }
 
     passwordValidation() {
+        /* PASSWORD CAMP */
         this.formInstance.paragraphRemover("passLength");
         if (this.passInput.value.length < 6 || this.passInput.value.length > 12)
             $("validationForm, input[data-index=4]").after(this.formInstance.paragraph("passLength", "", "Password must contains 6-12 characters."));
-        
+
         this.formInstance.paragraphRemover("samePass");
         if (this.passInput.value != this.passConfirmInput.value)
             $("validationForm, input[data-index=5]").after(this.formInstance.paragraph("samePass", "", "Password must be the same."));
@@ -139,16 +140,44 @@ class PasswordValidator {
 
 class FormValidation {
     constructor() {
-        this.textInputs = document.querySelectorAll('.validationForm input[type="text"], .validationForm input[type="password"]');
-        this.allNameInstance = new AllNameValidator();
-        this.allNameInstance.formInstance = this;
-        this.cpfInstance = new CpfValidator();
-        this.cpfInstance.formInstance = this;
-        this.userInstance = new UserValidator();
-        this.userInstance.formInstance = this;
-        this.passwordInstance = new PasswordValidator();
-        this.passwordInstance.formInstance = this;
+        this.textInputs = document.querySelectorAll('.validationForm input[type="text"], input[type="password"]');
+        this.initValidators();
     }
+
+    initValidators() {
+        const validators = {
+            allNameInstance: AllNameValidator,
+            cpfInstance: CpfValidator,
+            userInstance: UserValidator,
+            passwordInstance: PasswordValidator
+        };
+
+        for (const [instance, Blueprint] of Object.entries(validators)) {
+            this[instance] = new Blueprint();
+            this[instance].formInstance = this;
+        }
+    }
+
+    init() {
+        FormValidation.stopReload();
+        this.allNameInstance.allNameMask();
+        this.cpfInstance.cpfMask();
+        this.userInstance.userMask();
+        this.validateButton();
+    }
+
+    validateButton() {
+        document.addEventListener("submit", event => {
+            const element = event.target;
+            if (element.classList.contains("validationForm")) {
+                this.blankInputsValidation(),
+                    this.cpfInstance.cpfValidation(),
+                    this.userInstance.userValidation(),
+                    this.allNameInstance.whitespaceRemover(),
+                    this.passwordInstance.passwordValidation();
+            }
+        });
+    };
 
     static stopReload() {
         document.getElementById("validationForm").addEventListener("submit", event => {
@@ -176,26 +205,8 @@ class FormValidation {
         })
     }
 
-    validateButton() {
-        FormValidation.stopReload();
-        this.allNameInstance.allNameMask();
-        this.cpfInstance.cpfMask();
-        this.userInstance.userMask();
-
-        document.addEventListener("submit", event => {
-            const element = event.target;
-            if (element.classList.contains("validationForm")) {
-                this.blankInputsValidation(),
-                    this.cpfInstance.cpfValidation(),
-                    this.userInstance.userValidation(),
-                    this.allNameInstance.whitespaceRemover(),
-                    this.passwordInstance.passwordValidation();
-
-            }
-        });
-    };
 }
 
 const form = new FormValidation();
-form.validateButton()
 console.log(form)
+form.init();
