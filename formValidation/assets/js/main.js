@@ -96,7 +96,7 @@ class CpfValidator {
 
         this.formInstance.paragraphRemover("cpfInputValidation");
         if (!(firstdigitVerificator && secondDigitVerificator))
-            $("validationForm, input[data-index=2]").after(this.formInstance.paragraph("cpfInputValidation", "", "Invalid CPF"));
+            $(".validationForm input[data-index=2]").after(this.formInstance.paragraph("cpfInputValidation", "", "Invalid CPF"));
     }
 }
 
@@ -115,7 +115,7 @@ class UserValidator {
     userValidation() {
         this.formInstance.paragraphRemover("userLength");
         if (this.userInput.value.length < 3 || this.userInput.value.length > 12)
-            $("validationForm, input[data-index=3]").after(this.formInstance.paragraph("userLength", "", "Username must contains 3-12 characters."));
+            $(".validationForm input[data-index=3]").after(this.formInstance.paragraph("userLength", "", "Username must contains 3-12 characters."));
     }
 }
 
@@ -130,11 +130,12 @@ class PasswordValidator {
         /* PASSWORD CAMP */
         this.formInstance.paragraphRemover("passLength");
         if (this.passInput.value.length < 6 || this.passInput.value.length > 12)
-            $("validationForm, input[data-index=4]").after(this.formInstance.paragraph("passLength", "", "Password must contains 6-12 characters."));
+            $(".validationForm input[data-index=4]").after(this.formInstance.paragraph("passLength", "", "Password must contains 6-12 characters."));
 
+        /* PASSWORD CONFIRMATION CAMP */
         this.formInstance.paragraphRemover("samePass");
         if (this.passInput.value != this.passConfirmInput.value)
-            $("validationForm, input[data-index=5]").after(this.formInstance.paragraph("samePass", "", "Password must be the same."));
+            $(".validationForm input[data-index=5]").after(this.formInstance.paragraph("samePass", "", "Password must be the same."));
     }
 }
 
@@ -180,7 +181,7 @@ class FormValidation {
     };
 
     static stopReload() {
-        document.getElementById("validationForm").addEventListener("submit", event => {
+        document.querySelector(".validationForm").addEventListener("submit", event => {
             event.preventDefault();
         });
     }
@@ -200,7 +201,7 @@ class FormValidation {
             this.paragraphRemover(`blankInput${index}`);
 
             if ((textInput.value === "") && (document.getElementById(`blankInput${index}`) === null)) {
-                $(`validationForm, input[data-index=${index}]`).after(this.paragraph("blankInput", index, "Empty"));
+                $(`.validationForm input[data-index=${index}]`).after(this.paragraph("blankInput", index, "Empty"));
             }
         })
     }
@@ -208,5 +209,4 @@ class FormValidation {
 }
 
 const form = new FormValidation();
-console.log(form)
 form.init();

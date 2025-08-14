@@ -18,22 +18,17 @@ body {
   line-height: 1.5em;
 }
 
-#validationForm {
-  max-width: 640px;
-  margin: 50px auto;
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-}
 
 input, 
-label {
+label,
+button {
   display: block;
   width: 100%;
   margin-bottom: 10px;
 }
 
-input {
+input,
+button {
   font-size: 24px;
   height: 50px;
   padding: 0 20px;
@@ -46,8 +41,12 @@ p {
   font-size: 15px;
 }
 
-#result {
-  margin-top: 30px;
+.validationForm {
+  max-width: 640px;
+  margin: 50px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
 }
 
 .formSubmit {
@@ -60,7 +59,7 @@ p {
   cursor: pointer;
 }
 
-.cpfSubmit:hover {
+.formSubmit:hover {
   background: var(--primary-color-darker);
 }
 

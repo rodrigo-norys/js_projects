@@ -11,7 +11,7 @@
 </head>
 
 <body>
-  <form id="validationForm" class="validationForm">
+  <form action="/" method="POST" class="validationForm">
       <label for="nameInput">Name</label>
       <input type="text" name="nameInput" id="nameInput" data-index="0">
 
@@ -30,8 +30,7 @@
       <label for="passConfirmInput">Password Confirmation</label>
       <input type="password" name="passConfirmInput" id="passConfirmInput" data-index="5">
 
-      <input type="submit" name="formSubmit" class="formSubmit" value="Validate"></input>
-      <div id="result"></div>
+      <button type="submit" name="formSubmit" class="formSubmit">Validate</button>
   </form>
   <script src="https://unpkg.com/inputmask@5.0.8/dist/inputmask.min.js"></script>
   <script src="./assets/js/main.js"></script>
