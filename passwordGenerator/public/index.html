@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Modelo</title>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>Password Generator</h1>
+
+    <p id="your-password">Your new Password will be generated here!</p>
+
+    <section>
+      <label for="char-limit">Password length</label>
+      <input type="number" name="char-limit" id="char-limit" value ="6" min="6" max="20">
+    </section>
+
+    <section>
+      <label for="add-numbers">Add numbers</label>
+      <input type="checkbox" name="add-numbers" id="add-numbers">
+    </section>
+
+    <section>
+      <label for="uppercase">Uppercase Letters</label>
+      <input type="checkbox" name="uppercase" id="uppercase">
+    </section>
+
+    <section>
+      <label for="lowercase">Lowercase Letters</label>
+      <input type="checkbox" name="lowercase" id="lowercase">
+    </section>
+
+    <section>
+      <label for="symbols">Symbols</label>
+      <input type="checkbox" name="symbols" id="symbols">
+    </section>
+
+      <button type="submit" id="generate-button">Generate</button>
+  </div>
+
+  <script src="./assets/js/bundle.js"></script>
+</body>
+
+</html>
