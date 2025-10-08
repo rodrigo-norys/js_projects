@@ -1,0 +1,48 @@
+<%- include('includes/head'); %>
+  <%- include('includes/navbar'); %>
+
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8 my-3">
+
+          <div class="container" id="div400px">
+            <%- include('includes/messages'); %>
+          </div>
+
+          <h1 class="text-center">Edit your contacts</h1>
+          <div class="container" id="div400px">
+            <div class="row">
+              <div class="col-lg">
+                <form action="/contact/<%= value.id %>" method="POST">
+                  <input type="hidden" name="_csrf" value=<%= csrfToken %>>
+                  <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" class="form-control" name="name" value="<%= value.name %>">
+                  </div>
+                  <div class="form-group">
+                    <label>Last name</label>
+                    <input type="text" class="form-control" name="lastName" value="<%= value.lastName %>">
+                  </div>
+                  <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" class="form-control" name="email" value="<%= value.email %>">
+                  </div>
+                  <div class="form-group">
+                    <label>Phone</label>
+                    <input type="text" class="form-control" name="phone" value="<%= value.phone %>">
+                  </div>
+              </div>
+              <button type="submit" class="btn btn-success mt-3">Save</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-2"></div>
+    </div>
+    </div>
+
+
+    <%- include('includes/footer'); %>

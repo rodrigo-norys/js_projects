@@ -1,0 +1,46 @@
+<%- include('includes/head'); %>
+  <%- include('includes/navbar'); %>
+
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8 my-3">
+          <h1 class="text-center">Contact List Page</h1>
+          <p class="text-center lead">Just a home page</p>
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col" width = "100px">Last Name</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Created At</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (allContacts.length> 0) { %>
+                <% allContacts.map((contact, index)=> { %>
+                  <tr>
+                    <th scope="row"><%= index %></th>
+                    <td><%= contact.name %></td>
+                    <td><%= contact.lastName%></td>
+                    <td><%= contact.email%></td>
+                    <td><%= contact.phone%></td>
+                    <td><%= contact.createdAt.toLocaleString("pt-BR")%></td>
+                    <td><a href="/contact/<%= contact.id %>" type="submit" class="btn btn-secondary btn-big mt-3 px-4">Edit</a></td>
+                  </tr>
+                  <% });%>              
+                    <% } %>
+            </tbody>
+          </table>
+
+        </div>
+        <div class="col-lg-2"></div>
+      </div>
+    </div>
+
+
+    <%- include('includes/footer'); %>
