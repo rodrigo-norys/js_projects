@@ -23,12 +23,12 @@ export default class Authenticator {
 
         this.user = await AuthModel.findOne({ email: this.body.email });
         if (!this.user) {
-            this.errors.push('Endereço de e-mail ou senha inválida');
+            this.errors.push('Email address or password invalid');
             return;
         }
         const password = bcrypt.compareSync(this.body.password, this.user.password);
         if (password === false) { 
-            this.errors.push('Senha inválida') ;
+            this.errors.push('Invalid password') ;
         }
     }
 

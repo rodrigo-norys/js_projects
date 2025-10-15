@@ -1,7 +1,6 @@
 <%- include('includes/head'); %>
   <%- include('includes/navbar'); %>
 
-
     <div class="container">
       <div class="row">
         <div class="col-lg-2"></div>
@@ -17,7 +16,7 @@
               <div class="container" id="div400px">
                   <h4>Faça o seu cadastro</h4>
                   <p>Se você ainda não possui conta, preencha o formulário abaixo</p>
-                  <form action="/register" method="POST">
+                  <form class="form-register" action="/register" method="POST">
                     <input type="hidden" name="_csrf" value=<%=csrfToken %>>
                     <div class="form-group">
                       <label>Seu e-mail</label>

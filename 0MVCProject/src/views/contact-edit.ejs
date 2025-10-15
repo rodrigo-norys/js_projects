@@ -15,9 +15,9 @@
           <div class="container" id="div400px">
             <div class="row">
               <div class="col-lg">
-                <form action="/contact/<%= value.id %>" method="POST">
+                <form class="form-editContact" action="/contact/<%= value.id %>" method="POST">
                   <input type="hidden" name="_csrf" value=<%= csrfToken %>>
-                  <div class="form-group">
+                  <div class="form-group" name="div-addName">
                     <label>Name</label>
                     <input type="text" class="form-control" name="name" value="<%= value.name %>">
                   </div>
@@ -25,7 +25,7 @@
                     <label>Last name</label>
                     <input type="text" class="form-control" name="lastName" value="<%= value.lastName %>">
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" name="div-mailName">
                     <label>E-mail</label>
                     <input type="email" class="form-control" name="email" value="<%= value.email %>">
                   </div>

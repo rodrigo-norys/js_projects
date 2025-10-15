@@ -22,22 +22,10 @@ async function addContact(req, res, err) {
         console.log(error);
     }
 }
-async function listContacts(req, res) {
-    try {
-        const contact = new Contact(req.body);
-        const allContacts = await contact.listContacts();
-        res.render('contact-list', { allContacts });
-    } catch (error) {
-        console.log(error);
-    }
-}
-
 async function toEditContact(req, res) {
     try {
         const contact = new Contact(req.body);
-        const value = await contact.findContact(req.params.id);
-
-
+        const value = await Contact.findContact(req.params.id);
         res.render('contact-edit', { value });
     } catch (error) {
         console.log(error);
@@ -66,5 +54,27 @@ async function editContact(req, res) {
 
 }
 
+async function deleteContact(req, res) {
+    try {
+        await Contact.deleteContact(req.params.id);
 
-export default { contactIndex, listContacts, addContact, toEditContact, editContact };
+        req.flash('success', 'Contact deleted successfully.');
+        req.session.save(() => res.redirect('/contact-list'));
+        return;
+    } catch (error) {
+        console.log(error);
+    }
+}
+async function listContacts(req, res) {
+    try {
+        const contact = new Contact(req.body);
+        const allContacts = await Contact.listContacts();
+        res.render('contact-list', { allContacts });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+
+export default { contactIndex, listContacts, addContact, toEditContact, editContact, deleteContact };

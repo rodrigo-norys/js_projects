@@ -1,20 +1,19 @@
 <%- include('includes/head'); %>
   <%- include('includes/navbar'); %>
-
-
     <div class="container">
       <div class="row">
         <div class="col-lg-2"></div>
         <div class="col-lg-8 my-3">
           <h1 class="text-center">Contact List Page</h1>
-          <p class="text-center lead">Just a home page</p>
-
+          <div class="container" id="div400px">
+            <%- include('includes/messages'); %>
+          </div>
           <table class="table">
             <thead>
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
-                <th scope="col" width = "100px">Last Name</th>
+                <th scope="col" class="noWrap">Last Name</th>
                 <th scope="col">E-mail</th>
                 <th scope="col">Phone</th>
                 <th scope="col">Created At</th>
@@ -26,19 +25,18 @@
                   <tr>
                     <th scope="row"><%= index %></th>
                     <td><%= contact.name %></td>
-                    <td><%= contact.lastName%></td>
+                    <td class="noWrap"><%= contact.lastName%></td>
                     <td><%= contact.email%></td>
                     <td><%= contact.phone%></td>
-                    <td><%= contact.createdAt.toLocaleString("pt-BR")%></td>
-                    <td><a href="/contact/<%= contact.id %>" type="submit" class="btn btn-secondary btn-big mt-3 px-4">Edit</a></td>
+                    <td class="noWrap"><%= contact.createdAt.toLocaleString("pt-BR")%></td>
+                    <td><a href="/contact/<%= contact.id %>" type="submit" class="btn btn-secondary btn-big mt-0 px-4">Edit</a></td>
+                    <td><a href="/contact/delete/<%= contact.id %>" class="btn btn-danger" type="submit">Delete</a></td>
                   </tr>
-                  <% });%>              
+                  <% });%>
                     <% } %>
             </tbody>
           </table>
-
         </div>
-        <div class="col-lg-2"></div>
       </div>
     </div>
 

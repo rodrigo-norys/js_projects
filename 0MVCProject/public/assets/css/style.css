@@ -1,3 +1,13 @@
 #div400px {
     width: 400px;
 }
+
+.noWrap {
+    white-space: nowrap;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-bottom: 5px;
+}

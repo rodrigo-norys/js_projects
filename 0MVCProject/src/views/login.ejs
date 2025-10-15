@@ -1,7 +1,6 @@
 <%- include('includes/head'); %>
   <%- include('includes/navbar'); %>
 
-
     <div class="container">
       <div class="row">
         <div class="col-lg-2"></div>
@@ -12,14 +11,13 @@
           </div>
 
           <h1 class="text-center">Acesse sua conta</h1>
-
           <div class="container" id="div400px">
             <div class="row">
               <div class="col-lg">
                 <h4>Faça seu login</h4>
                 <p>Se você já possui uma conta, efetue o login abaixo</p>
 
-                <form action="/login" method="POST">
+                <form class="form-login" action="/login" method="POST">
                   <input type="hidden" name="_csrf" value=<%=csrfToken %>>
                   <div class="form-group">
                     <label>Seu e-mail</label>
@@ -34,11 +32,8 @@
               </div>
             </div>
           </div>
-
-
-
         </div>
-        <div class="col-lg-2"></div>
+
       </div>
     </div>
 

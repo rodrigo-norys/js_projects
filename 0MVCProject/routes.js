@@ -21,6 +21,7 @@ route.post('/register', authController.register);
 // Contact routes.
 route.get('/contact-add', middleware.userOnly, contactController.contactIndex);
 route.get('/contact-list', middleware.userOnly, contactController.listContacts);
+route.get('/contact/delete/:id', contactController.deleteContact);
 route.get('/contact/:id', middleware.userOnly, contactController.toEditContact);
 route.post('/contact/:id', contactController.editContact);
 route.post('/contact', contactController.addContact);

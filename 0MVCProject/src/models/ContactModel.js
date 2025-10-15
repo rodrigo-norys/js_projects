@@ -18,25 +18,29 @@ export default class Contact {
         this.contact = null
     }
 
+    async addContact() {
+        this.validate();
+        if (this.errors.length > 0) return;
+    
+        this.contact = await ContactModel.create(this.body);
+    }
+    
     async editContact(id) {
         this.validate();
         if (this.errors.length > 0) return;
         this.contact = await ContactModel.findByIdAndUpdate(id, this.body, { new: true });
     }
 
-    async findContact(id) {
-        return await ContactModel.findById(id)
+    static async deleteContact(id) {
+        return await ContactModel.findOneAndDelete({ _id: id });
     }
 
-    async listContacts() {
-        return await ContactModel.find();
+    static async findContact(id) {
+        return await ContactModel.findById({ _id: id })
     }
 
-    async addContact() {
-        this.validate();
-        if (this.errors.length > 0) return;
-
-        this.contact = await ContactModel.create(this.body);
+    static async listContacts() {
+        return await ContactModel.find().sort({ name: -1 });
     }
 
     validate() {
