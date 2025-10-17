@@ -10,24 +10,24 @@
             <%- include('includes/messages'); %>
           </div>
 
-          <h1 class="text-center">Acesse sua conta</h1>
+          <h1 class="text-center">Access your account</h1>
           <div class="container" id="div400px">
             <div class="row">
               <div class="col-lg">
-                <h4>Faça seu login</h4>
-                <p>Se você já possui uma conta, efetue o login abaixo</p>
+                <h4>Log in</h4>
+                <p>If you already have an account, please log in below.</p>
 
                 <form class="form-login" action="/login" method="POST">
                   <input type="hidden" name="_csrf" value=<%=csrfToken %>>
                   <div class="form-group">
-                    <label>Seu e-mail</label>
+                    <label>E-mail</label>
                     <input type="email" class="form-control" name="email">
                   </div>
                   <div class="form-group">
-                    <label>Sua senha</label>
+                    <label>Password</label>
                     <input type="password" class="form-control" name="password">
                   </div>
-                  <button type="submit" class="btn btn-primary mt-3">Acessar minha conta</button>
+                  <button type="submit" class="btn btn-primary mt-3">Access my account</button>
                 </form>
               </div>
             </div>
