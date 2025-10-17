@@ -1,5 +1,5 @@
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
+import 'core-js/stable/index.js';
+import 'regenerator-runtime/runtime.js';
 
 import Auth from './validators/Auth.js';
 import Contact from './validators/Contact.js';
