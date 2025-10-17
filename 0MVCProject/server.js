@@ -5,7 +5,6 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
-import helmet from 'helmet';
 import csrf from 'csurf';
 
 import session from 'express-session';
@@ -48,7 +47,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 app.use(express.static(path.resolve(__dirname, 'public')));
 
-app.use(helmet());
 app.use(csrf());
 
 app.use(flash());
