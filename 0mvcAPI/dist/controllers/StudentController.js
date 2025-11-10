@@ -1,11 +1,11 @@
-import Student from '../models/Student.js';
-import Photo from '../models/Photo.js';
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _Studentjs = require('../models/Student.js'); var _Studentjs2 = _interopRequireDefault(_Studentjs);
+var _Photojs = require('../models/Photo.js'); var _Photojs2 = _interopRequireDefault(_Photojs);
 
 class StudentController {
   // create
   async create(req, res) {
     try {
-      const newStudent = await Student.create(req.body);
+      const newStudent = await _Studentjs2.default.create(req.body);
       return res.json(newStudent);
     } catch (e) {
       return res.status(400).json({
@@ -17,11 +17,11 @@ class StudentController {
   // index
   async index(req, res) {
     try {
-      const allStudents = await Student.findAll({
+      const allStudents = await _Studentjs2.default.findAll({
         attributes: ['id', 'name', 'last_name', 'email', 'age', 'weight', 'height'],
-        order: [['id', 'DESC'], [Photo, 'id', 'DESC']],
+        order: [['id', 'DESC'], [_Photojs2.default, 'id', 'DESC']],
         include: {
-          model: Photo,
+          model: _Photojs2.default,
           attributes: ['url', 'filename']
         }
       });
@@ -41,11 +41,11 @@ class StudentController {
           errors: ['You must enter an ID']
         });
       }
-      const student = await Student.findByPk(id, {
+      const student = await _Studentjs2.default.findByPk(id, {
         attributes: ['id', 'name', 'last_name', 'email', 'age', 'weight', 'height'],
-        order: [['id', 'DESC'], [Photo, 'id', 'DESC']],
+        order: [['id', 'DESC'], [_Photojs2.default, 'id', 'DESC']],
         include: {
-          model: Photo,
+          model: _Photojs2.default,
           attributes: ['url', 'filename']
         },
       });
@@ -68,7 +68,7 @@ class StudentController {
           errors: ['You must enter an ID']
         });
       }
-      let student = await Student.findByPk(id);
+      let student = await _Studentjs2.default.findByPk(id);
 
       if (!student) {
         return res.status(400).json({
@@ -110,7 +110,7 @@ class StudentController {
           errors: ['You must enter an ID']
         });
       }
-      const student = await Student.destroy({
+      const student = await _Studentjs2.default.destroy({
         where: {
           id: id
         }
@@ -131,4 +131,4 @@ class StudentController {
   }
 }
 
-export default new StudentController();
+exports. default = new StudentController();

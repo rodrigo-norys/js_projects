@@ -1,11 +1,11 @@
-import { Sequelize, Model } from "sequelize";
-import appConfig from "../config/appConfig";
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _sequelize = require('sequelize');
+var _appConfig = require('../config/appConfig'); var _appConfig2 = _interopRequireDefault(_appConfig);
 
-export default class Photo extends Model {
+ class Photo extends _sequelize.Model {
   static init(sequelize) {
     super.init({
       originalname: {
-        type: Sequelize.STRING,
+        type: _sequelize.Sequelize.STRING,
         defaultValue: '',
         validate: {
           notEmpty: {
@@ -14,7 +14,7 @@ export default class Photo extends Model {
         }
       },
       filename: {
-        type: Sequelize.STRING,
+        type: _sequelize.Sequelize.STRING,
         defaultValue: '',
         validate: {
           notEmpty: {
@@ -23,9 +23,9 @@ export default class Photo extends Model {
         }
       },
       url: {
-        type: Sequelize.VIRTUAL,
+        type: _sequelize.Sequelize.VIRTUAL,
         get() {
-          return `${appConfig.url}/images/${this.getDataValue('filename')}`
+          return `${_appConfig2.default.url}/images/${this.getDataValue('filename')}`
         },
       }
     }, {
@@ -38,4 +38,4 @@ export default class Photo extends Model {
   static associate(models) {
     this.belongsTo(models.Student, { foreignKey: 'student_id' })
   }
-}
+} exports.default = Photo;

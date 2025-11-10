@@ -5,11 +5,9 @@ export default async (req, res, next) => {
     const { student_id } = req.body;
 
     const teste = await Student.findByPk(student_id)
-    console.log(teste)
-
     if (!teste) {
       return res.status(400).json({
-        errors: ['xdddd']
+        errors: ['Student not found (Middleware validation)']
       });
     }
     return next();
