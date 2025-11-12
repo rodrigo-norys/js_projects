@@ -25,7 +25,7 @@ class StudentController {
           attributes: ['url', 'filename']
         }
       });
-      return res.json(allStudents);
+      return res.json({allStudents});
     } catch (e) {
       return res.json({ errors: e.errors.map(err => err.message) });
     }
