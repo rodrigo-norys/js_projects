@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { get } from 'lodash';
 import { FaUserCircle, FaEdit, FaWindowClose, FaExclamation } from 'react-icons/fa';
 
 import { Container } from '../../styles/GlobalStyles';
-import { StudentContainer, ProfilePicture } from './styled';
+import { StudentContainer, ProfilePicture, HeaderToolbar } from './styled';
 
 import * as actions from '../../store/modules/student/actions';
 import Loading from '../../components/Loading';
@@ -14,10 +14,16 @@ export default function Students() {
   const dispatch = useDispatch();
   const students = useSelector(state => state.student.students);
   const isLoading = useSelector(state => state.student.isLoading);
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+
 
   useEffect(() => {
     dispatch(actions.getStudentsRequest());
   }, [dispatch]);
+
+  if (!isLoggedIn) {
+    return <Navigate to="/login" replace />;
+  }
 
   const handleDeleteAsk = e => {
     e.preventDefault();
@@ -28,13 +34,18 @@ export default function Students() {
 
   const handleDelete = (e, id) => {
     e.preventDefault();
-    dispatch(actions.deleteRequest(id));
+    dispatch(actions.deleteStudentRequest(id));
   }
 
   return (
     <Container>
       <Loading isLoading={isLoading} />
-      <h1>Students</h1>
+      <HeaderToolbar>
+        <h1>Students</h1>
+        <Link to={`/student/create`}>
+          <button type='button'>Add</button>
+        </Link>
+      </HeaderToolbar>
       <StudentContainer>
         {students.map(student => (
           <div key={String(student.id)}>
@@ -47,7 +58,6 @@ export default function Students() {
             </ProfilePicture>
             <span>{student.name}</span>
             <span>{student.email}</span>
-            <span>{student.id}</span>
             <Link to={`/student/${student.id}/edit`}>
               <FaEdit size={16} />
             </Link>

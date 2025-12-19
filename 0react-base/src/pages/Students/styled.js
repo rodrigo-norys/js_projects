@@ -22,3 +22,15 @@ export const ProfilePicture = styled.div`
     border-radius: 50%;
   }
 `;
+
+export const HeaderToolbar = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+
+  h1 {
+    margin: 0;
+  }
+`;

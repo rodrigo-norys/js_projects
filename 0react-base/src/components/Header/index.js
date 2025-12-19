@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import * as actions from '../../store/modules/auth/actions';
 import history from '../../services/history';
 import { Nav } from './styled';
+import { toast } from 'react-toastify';
 
 export default function Header() {
   const dispatch = useDispatch();
@@ -13,7 +14,8 @@ export default function Header() {
   const handleLogout = e => {
     e.preventDefault();
     dispatch(actions.loginFailure());
-    history.push('/');
+    toast.error('You are logged out');
+    history.push('/login');
   };
   return (
     <Nav>
@@ -25,10 +27,10 @@ export default function Header() {
       </Link>
       {isLoggedIn ? (
         <Link onClick={handleLogout} to="/logout">
-          <FaSignInAlt size={24} />
+          <FaPowerOff size={24} />
         </Link>
       ) : (
-        <Link to='/Login'>
+        <Link to='/login'>
           <FaSignInAlt size={24} />
         </Link>
       )}

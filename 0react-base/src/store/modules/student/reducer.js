@@ -12,7 +12,7 @@ export default function (state = initialState, action) {
     case types.GET_STUDENTS_REQUEST: {
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
       };
     }
     case types.GET_STUDENTS_SUCCESS: {
@@ -25,14 +25,37 @@ export default function (state = initialState, action) {
     case types.GET_STUDENTS_FAILURE: {
       return {
         ...state,
-        isLoading: false
+        isLoading: false,
       };
     }
-    // DELETE STUDENTS
+
+    // CREATE STUDENT
+    case types.CREATE_STUDENT_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case types.CREATE_STUDENT_SUCCESS: {
+      console.log(state)
+      return {
+        ...state,
+        students: [...state.students, action.payload],
+        isLoading: false,
+      };
+    }
+    case types.CREATE_STUDENT_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+      };
+    }
+
+    // DELETE STUDENT
     case types.DELETE_STUDENT_REQUEST: {
       return {
         ...state,
-        isLoading: false
+        isLoading: true,
       };
     }
     case types.DELETE_STUDENT_SUCCESS: {
@@ -48,7 +71,7 @@ export default function (state = initialState, action) {
     case types.DELETE_STUDENT_FAILURE: {
       return {
         ...state,
-        isLoading: false
+        isLoading: false,
       };
     }
 

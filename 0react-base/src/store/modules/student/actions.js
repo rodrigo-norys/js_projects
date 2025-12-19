@@ -20,22 +20,44 @@ export function getStudentsFailure() {
   };
 }
 
+// CREATE STUDENT
+export function createStudentRequest(studentData) {
+  return {
+    type: types.CREATE_STUDENT_REQUEST,
+    payload: studentData,
+  };
+}
+
+export function createStudentSuccess(studentData) {
+  return {
+    type: types.CREATE_STUDENT_SUCCESS,
+    payload: studentData,
+  };
+}
+
+export function createStudentFailure(studentData) {
+  return {
+    type: types.CREATE_STUDENT_FAILURE,
+    payload: studentData,
+  };
+}
+
 // DELETE STUDENT
-export function deleteRequest(id) {
+export function deleteStudentRequest(id) {
   return {
     type: types.DELETE_STUDENT_REQUEST,
     payload: id,
   };
 }
 
-export function deleteSuccess(id) {
+export function deleteStudentSuccess(id) {
   return {
     type: types.DELETE_STUDENT_SUCCESS,
     payload: id,
   };
 }
 
-export function deleteFailure(id) {
+export function deleteStudentFailure(id) {
   return {
     type: types.DELETE_STUDENT_FAILURE,
     payload: id,

@@ -67,10 +67,8 @@ function* registerRequest({ payload }) {
     if (errors.length > 0) {
       errors.map(error => toast.error(error));
     } else {
-      console.log(e)
       toast.error('Unknown error');
     }
-
     yield put(actions.registerFailure());
   }
 }
