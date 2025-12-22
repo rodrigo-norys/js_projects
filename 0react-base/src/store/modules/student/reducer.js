@@ -37,7 +37,6 @@ export default function (state = initialState, action) {
       };
     }
     case types.CREATE_STUDENT_SUCCESS: {
-      console.log(state)
       return {
         ...state,
         students: [...state.students, action.payload],

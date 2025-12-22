@@ -16,7 +16,6 @@ export default function Students() {
   const isLoading = useSelector(state => state.student.isLoading);
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
 
-
   useEffect(() => {
     dispatch(actions.getStudentsRequest());
   }, [dispatch]);
